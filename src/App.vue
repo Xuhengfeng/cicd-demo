@@ -33,7 +33,8 @@ const axiosInstance = axios.create({
     timeout: 3000,
 });
 
-let state = reactive({
+// https://xuhengfeng.github.io/cicd-demo/
+const state = reactive({
     usersList: [],
 });
 const getUsers = async (params) => {

@@ -6,12 +6,15 @@
         <a href="https://vuejs.org/" target="_blank">
             <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
         </a>
+        <button @click="getUsers">get请求</button>
+        <p v-for="item in state.usersList">{{ item }}</p>
         <h1>xhf聊前端</h1>
         <chartPie :series-data="dataList" :extra-option="extraOption" />
     </div>
     <!-- <HelloWorld msg="Vite + Vue" /> -->
 </template>
 <script setup>
+import { reactive } from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 import chartPie from './components/echart/pie/chartPie.vue';
 const dataList = [
@@ -21,6 +24,22 @@ const dataList = [
 ];
 const extraOption = {
   color: ["#fe883a", "#2d90d1", "#f75981", "#90e2a9"],
+}
+
+const baseURL = "http://localhost:3005"; 
+const axiosInstance = axios.create({
+    headers: { "Content-Type": "application/json" },
+    baseURL,
+    timeout: 3000,
+});
+
+let state = reactive({
+    usersList: [],
+});
+const getUsers = async (params) => {
+    const result = await axiosInstance.get("/user/init-data");
+    state.usersList = result.data.data;
+    console.log(state);
 }
 </script>
 
